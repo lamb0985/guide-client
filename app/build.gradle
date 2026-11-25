@@ -1,5 +1,20 @@
 plugins { id 'com.android.application' version '8.7.3' }
 android { namespace 'local.guide.client'; compileSdk 35
- defaultConfig { applicationId 'local.guide.client'; minSdk 23; targetSdk 34; versionCode 3; versionName '0.1.2' }
+ defaultConfig { applicationId 'local.guide.client'; minSdk 23; targetSdk 34; versionCode 4; versionName '0.1.3' }
+ def signingFile = System.getenv('GUIDE_SIGNING_FILE')
+ if (signingFile) {
+   signingConfigs {
+     persistent {
+       storeFile file(signingFile)
+       storePassword System.getenv('GUIDE_SIGNING_PASSWORD')
+       keyAlias 'guide-client'
+       keyPassword System.getenv('GUIDE_SIGNING_PASSWORD')
+       storeType 'PKCS12'
+     }
+   }
+   buildTypes { debug { signingConfig signingConfigs.persistent } }
+ } else if (System.getenv('CI') == 'true') {
+   throw new GradleException('Persistent signing key required for CI builds')
+ }
 }
 dependencies { implementation 'androidx.media3:media3-exoplayer:1.5.1'; implementation 'androidx.media3:media3-exoplayer-hls:1.5.1'; implementation 'androidx.media3:media3-ui:1.5.1'; implementation 'androidx.media3:media3-datasource-okhttp:1.5.1' }

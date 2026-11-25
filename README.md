@@ -32,7 +32,7 @@ Guide Client provides a dedicated live TV experience using your existing Dispatc
 | Automated APK builds | GitHub Actions workflow included |
 | Server modifications | Not required by design |
 
-**Development status:** Early prototype (v0.1.2). Login and guide navigation were confirmed on a device in earlier builds. Native playback interception and frame pacing require device verification.
+**Development status:** Early prototype (v0.1.3). Login and guide navigation were confirmed on a device in earlier builds. Native playback interception and frame pacing require device verification.
 
 ## Getting started
 
@@ -49,7 +49,7 @@ Guide Client provides a dedicated live TV experience using your existing Dispatc
 3. Download the `guide-client-debug` artifact and extract the APK.
 4. Install the APK on your Android device using your preferred sideloading method.
 
-Debug builds are intended for testing, not production distribution. No verified APK release is currently promised.
+Debug builds are intended for testing, not production distribution. Starting with v0.1.3, CI requires a persistent signing key so future APKs can upgrade without clearing data. Older builds signed with temporary keys require a one-time full uninstall (without keeping data). See [SIGNING.md](SIGNING.md).
 
 ### Usage
 

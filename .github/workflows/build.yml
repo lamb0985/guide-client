@@ -20,7 +20,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - run: gradle assembleDebug
+      - name: Restore persistent signing key and build APK
+        env:
+          GUIDE_SIGNING_KEY_B64: ${{ secrets.GUIDE_SIGNING_KEY_B64 }}
+          GUIDE_SIGNING_PASSWORD: ${{ secrets.GUIDE_SIGNING_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GUIDE_SIGNING_KEY_B64" || -z "$GUIDE_SIGNING_PASSWORD" ]]; then
+            echo "::error::Configure GUIDE_SIGNING_KEY_B64 and GUIDE_SIGNING_PASSWORD repository secrets before building."
+            exit 1
+          fi
+          umask 077
+          export GUIDE_SIGNING_FILE="$RUNNER_TEMP/guide-client.p12"
+          trap 'rm -f "$GUIDE_SIGNING_FILE"' EXIT
+          printf '%s' "$GUIDE_SIGNING_KEY_B64" | base64 --decode > "$GUIDE_SIGNING_FILE"
+          gradle assembleDebug
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs app/build/outputs/apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4
         with:
           name: guide-client-debug
