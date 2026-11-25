@@ -25,14 +25,14 @@ Guide Client provides a dedicated live TV experience using your existing Dispatc
 | Persistent WebView session storage | Implemented |
 | Original program information popups | Uses server-rendered interface |
 | Full-screen WebView playback | Implemented; device testing pending |
-| Native Media3 / ExoPlayer | Direct stream navigation supported in code; guide handoff unverified |
+| Native Media3 / ExoPlayer | Same-origin live MPEG-TS request handoff with authenticated Media3 playback; device verification pending |
 | Android TV launcher | Implemented |
 | Remote / D-pad navigation | Dedicated guide tile navigation; device verification pending |
 | Guide-only layout | Administrative sidebar hidden and routes restricted in the client |
 | Automated APK builds | GitHub Actions workflow included |
 | Server modifications | Not required by design |
 
-**Development status:** Early prototype (v0.1.1). v0.1.0 compiled successfully and login was confirmed on a device; guide navigation fixes in v0.1.1 require device verification.
+**Development status:** Early prototype (v0.1.2). Login and guide navigation were confirmed on a device in earlier builds. Native playback interception and frame pacing require device verification.
 
 ## Getting started
 
@@ -72,7 +72,7 @@ flowchart TD
     E --> G[Media3 direct stream playback]
 ```
 
-The guide and authentication are provided by the existing Dispatcharr instance. Guide Client wraps that interface and adds local Android playback functionality.
+The native player intercepts same-origin Dispatcharr live proxy requests, reuses the current authenticated session and buffers the MPEG-TS stream directly. Redirects are disabled for native requests to avoid forwarding credentials to another host. The guide and authentication are provided by the existing Dispatcharr instance. Guide Client wraps that interface and adds local Android playback functionality.
 
 ## Build from source
 
