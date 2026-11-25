@@ -27,11 +27,12 @@ Guide Client provides a dedicated live TV experience using your existing Dispatc
 | Full-screen WebView playback | Implemented; device testing pending |
 | Native Media3 / ExoPlayer | Direct stream navigation supported in code; guide handoff unverified |
 | Android TV launcher | Implemented |
-| Remote / D-pad navigation | Preliminary |
+| Remote / D-pad navigation | Dedicated guide tile navigation; device verification pending |
+| Guide-only layout | Administrative sidebar hidden and routes restricted in the client |
 | Automated APK builds | GitHub Actions workflow included |
 | Server modifications | Not required by design |
 
-**Development status:** Early prototype (v0.1.0). Build success and compatibility with live Dispatcharr instances have not yet been established.
+**Development status:** Early prototype (v0.1.1). v0.1.0 compiled successfully and login was confirmed on a device; guide navigation fixes in v0.1.1 require device verification.
 
 ## Getting started
 
@@ -54,7 +55,7 @@ Debug builds are intended for testing, not production distribution. No verified 
 
 1. Launch Guide Client and enter the base URL of your Dispatcharr server (for example, `http://192.168.1.15:9191`).
 2. Sign in using the original Dispatcharr authentication interface.
-3. Browse the guide and choose a program.
+3. Use Up/Down to change channels, Left/Right to select programs, and OK to open the original program popup. The guide receives initial focus and selected tiles have a teal outline.
 4. Use its playback action to watch the channel. Press Back to exit full-screen playback.
 
 The hardware Menu key opens server configuration when available. Exact navigation and playback behavior depend on the server version and Android device.
